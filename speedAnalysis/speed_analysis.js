@@ -2,45 +2,69 @@ let testText = "The quick brown fox jumps over the lazy dog.";
 let startTime, endTime;
 
 function startTest() {
-// Set the test text
-document.getElementById("inputText").value = testText;
+    // Set the test text
+    document.getElementById("inputText").value = testText;
 
-// Reset user input and output
-let userInput = document.getElementById("userInput");
-userInput.value = "";
-userInput.readOnly = false;
-userInput.focus();
+    // Reset user input and output
+    let userInput = document.getElementById("userInput");
+    userInput.value = "";
+    userInput.readOnly = false;
+    userInput.focus();
 
-document.getElementById("output").innerHTML = "";
+    document.getElementById("output").innerHTML = "";
 
-// Start timer
-startTime = new Date().getTime();
+    // Start timer
+    startTime = new Date().getTime();
 }
- function endTest() {
-            endTime = new Date().getTime();
 
-            // Disable user input
-            document.getElementById("userInput").readOnly = true;
+function endTest() {
+    endTime = new Date().getTime();
 
-            // Calculate time elapsed and words per minute (WPM)
-            var timeElapsed = (endTime - startTime) / 1000; // in seconds
-            var userTypedText = document.getElementById("userInput").value;
+    // Disable user input
+    document.getElementById("userInput").readOnly = true;
 
-            // Split the text using regex to count words correctly
-            var typedWords = userTypedText.split(/\s+/).filter(function (word) {
-                return word !== "";
-            }).length;
+    // Calculate time elapsed and words per minute (WPM)
+    var timeElapsed = (endTime - startTime) / 1000; // in seconds
+    var userTypedText = document.getElementById("userInput").value;
 
-            var wpm = 0; // Default value
+    // Split the text using regex to count words correctly
+    var typedWords = userTypedText.split(/\s+/).filter(function (word) {
+        return word !== "";
+    }).length;
 
-            if (timeElapsed !== 0 && !isNaN(typedWords)) {
-                wpm = Math.round((typedWords / timeElapsed) * 60);
-            }
+    var wpm = 0; // Default value
 
-            // Display the results
-            var outputDiv = document.getElementById("output");
-            outputDiv.innerHTML = "<h2>Typing Test Results:</h2>" +
-                "<p>Words Typed: " + typedWords + "</p>" +
-                "<p>Time Elapsed: " + timeElapsed.toFixed(2) + " seconds</p>" +
-                "<p>Words Per Minute (WPM): " + wpm + "</p>";
-            }
+    if (timeElapsed !== 0 && !isNaN(typedWords)) {
+        wpm = Math.round((typedWords / timeElapsed) * 60);
+    }
+
+    // --- NEW: Calculate Typing Accuracy ---
+    var correctChars = 0;
+    var maxLength = Math.max(testText.length, userTypedText.length);
+
+    for (var i = 0; i < userTypedText.length; i++) {
+        if (userTypedText[i] === testText[i]) {
+            correctChars++;
+        }
+    }
+
+    var accuracy = maxLength > 0 ? Math.round((correctChars / maxLength) * 100) : 0;
+    // --------------------------------------
+
+    // Display the results
+    var outputDiv = document.getElementById("output");
+    outputDiv.innerHTML = "<h2>Typing Test Results:</h2>" +
+        "<p>Words Typed: " + typedWords + "</p>" +
+        "<p>Time Elapsed: " + timeElapsed.toFixed(2) + " seconds</p>" +
+        "<p>Words Per Minute (WPM): " + wpm + "</p>" +
+        "<p>Accuracy: " + accuracy + "%</p>";
+}
+
+document.getElementById("userInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if (!this.readOnly && startTime) {
+            endTest();
+        }
+    }
+});
