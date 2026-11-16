@@ -1,20 +1,95 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Speed Test Analysis</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 16px;
+    }
+
+    .mode-toggle input {
+      display: none;
+    }
+
+    .slider {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background-color: #ccc;
+      border-radius: 24px;
+      transition: background-color 0.25s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.25s;
+    }
+
+    .mode-toggle input:checked + .slider {
+      background-color: #e53935;
+    }
+
+    .mode-toggle input:checked + .slider::before {
+      transform: translateX(20px);
+    }
+
+    textarea {
+      width: 100%;
+      margin: 6px 0 14px 0;
+      padding: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+  </style>
 </head>
 <body>
   <h1>Speed Typing Analysis</h1>
 
-    <label for="inputText">Type the following text:</label><br>
-    <textarea id="inputText"  cols="50" rows="5" readonly placeholder="Get ready to type..."></textarea><br>
+  <label class="mode-toggle">
+    <input type="checkbox" id="hardModeToggle">
+    <span class="slider"></span>
+    <span class="mode-label">Hard Mode (Strict Characters)</span>
+  </label><br>
 
-    <label for="userInput">Your typing:</label><br>
-    <textarea id="userInput"  cols="50" rows="5" placeholder="Start typing when ready"></textarea><br>
-    <button onclick="startTest()">Start Test</button>
-    <button onclick="endTest()">End Test</button>
-    <div id="output"></div>
-    <script src="./speed_analysis.js"></script>
+  <label for="inputText">Type the following text:</label><br>
+  <textarea id="inputText" cols="50" rows="5" readonly placeholder="Get ready to type..."></textarea><br>
+
+  <label for="userInput">Your typing:</label><br>
+  <textarea id="userInput" cols="50" rows="5" readonly placeholder="Click Start Test to begin..."></textarea><br>
+
+  <button onclick="startTest()">Start Test</button>
+  <button onclick="endTest()">End Test</button>
+
+  <div id="output"></div>
+
+  <script src="./speed_analysis.js"></script>
 </body>
 </html>
