@@ -54,11 +54,41 @@
       transform: translateX(20px);
     }
 
+    /* --- NEW: Styled Box & Live Highlight Colors --- */
+    #textDisplay {
+      border: 1px solid #888;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      padding: 12px;
+      margin: 6px 0 14px 0;
+      min-height: 70px;
+      font-family: monospace;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #666;
+    }
+
+    .correct {
+      color: #2e7d32; /* Green */
+    }
+
+    .incorrect {
+      color: #c62828; /* Red */
+      background-color: #ffcdd2; /* Light red highlight so wrong spaces are visible! */
+      border-radius: 2px;
+    }
+
+    .current {
+      border-bottom: 2px solid #1976d2; /* Blue cursor underline on next letter */
+    }
+    /* ----------------------------------------------- */
+
     textarea {
       width: 100%;
       margin: 6px 0 14px 0;
       padding: 8px;
-      font-size: 15px;
+      font-family: monospace;
+      font-size: 16px;
       box-sizing: border-box;
     }
 
@@ -79,8 +109,9 @@
     <span class="mode-label">Hard Mode (Strict Characters)</span>
   </label><br>
 
-  <label for="inputText">Type the following text:</label><br>
-  <textarea id="inputText" cols="50" rows="5" readonly placeholder="Get ready to type..."></textarea><br>
+  <label>Type the following text:</label>
+  <!-- Changed from <textarea> to <div> so we can color individual letters -->
+  <div id="textDisplay">Click Start Test to load text...</div>
 
   <label for="userInput">Your typing:</label><br>
   <textarea id="userInput" cols="50" rows="5" readonly placeholder="Click Start Test to begin..."></textarea><br>
